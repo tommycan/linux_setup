@@ -17,7 +17,7 @@ curl https://pyenv.run | bash
 #export PATH="$PYENV_ROOT/bin:$PATH"
 #eval "$(pyenv init --path)"
 #eval "$(pyenv init -)"
-#eval "$(pyenu v virtualenv-init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 ## Important to specify --enable-shared, as described
 ## https://blog.michelemattioni.me/2016/03/06/pyenv-install-using-shared-library/
