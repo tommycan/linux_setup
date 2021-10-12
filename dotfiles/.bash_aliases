@@ -64,4 +64,7 @@ prettyjson_s() {
 picocom0g() { picocom -b 115200 /dev/ttyUSB0 -g "pico0_$(date '+%Y%m%d_%H%M%S').log" ; }
 picocom1g() { picocom -b 115200 /dev/ttyUSB1 -g "pico1_$(date '+%Y%m%d_%H%M%S').log" ; }
 
-
+###########################################################
+# confidential
+###########################################################
+[[ -f ~/.bash_haleytek ]] && source ~/.bash_haleytek
