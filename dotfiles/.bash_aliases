@@ -65,6 +65,29 @@ picocom0g() { picocom -b 115200 /dev/ttyUSB0 -g "pico0_$(date '+%Y%m%d_%H%M%S').
 picocom1g() { picocom -b 115200 /dev/ttyUSB1 -g "pico1_$(date '+%Y%m%d_%H%M%S').log" ; }
 
 ###########################################################
+# cpufreq stuff
+###########################################################
+alias watch_cpu_freq="sudo watch -n1 cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq"
+alias get_cpu_gov="cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor"
+
+set_cpu_gov()
+{
+    gov=$1
+    # Usage: Run either of:
+    #    * set_cpu_gov performance
+    #    * set_cpu_gov powersave
+    # Your system might have more available governors
+    # than performance and powersave, to list them run "cpufreq-info"
+
+    for (( i = 0; i<$(nproc --all); i++));
+    do
+        sudo cpufreq-set -c $i -g $gov;
+    done
+    echo "All set"
+    get_cpu_gov
+}
+
+###########################################################
 # confidential
 ###########################################################
 [[ -f ~/.bash_haleytek ]] && source ~/.bash_haleytek
