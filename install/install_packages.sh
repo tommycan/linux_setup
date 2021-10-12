@@ -7,3 +7,5 @@ sudo apt install \
 	tree \
 	meld
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
