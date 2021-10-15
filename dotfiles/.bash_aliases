@@ -16,6 +16,9 @@ mkdircd () {
 	mkdir -p "$1" && cd "$1"
 }
 
+# case insenitive
+bind 'set completion-ignore-case on'
+
 # alias
 alias h='history'
 alias o='xdg-open'
