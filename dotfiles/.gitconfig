@@ -18,4 +18,5 @@
 [mergetool "meld"]
     cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 [alias]
-        adog = log --all --decorate --oneline --graph
+	adog = log --all --decorate --oneline --graph
+	root = rev-parse --show-toplevel
