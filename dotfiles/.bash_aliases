@@ -50,6 +50,30 @@ eval "$(pyenv virtualenv-init -)"
 ###########################################################
 # unsorted
 ###########################################################
+cd-repo-root() {
+    dirpath=$(pwd)
+    if [[ -z "${REPO_ROOT_DIR}" ]]; then
+        while [[ "/" != "$dirpath" ]]; do
+            if [[ -d "${dirpath}/.repo" ]] ; then
+                cd "$dirpath"
+            fi
+            dirpath=$(dirname "$dirpath")
+        done
+    else
+        cd $REPO_ROOT_DIR
+    fi
+}
+
+cd-git-root() {
+    dirpath=$(pwd)
+    while [[ "/" != "$dirpath" ]]; do
+        if [[ -d "${dirpath}/.git" ]] ; then
+            cd "$dirpath"
+        fi
+        dirpath=$(dirname "$dirpath")
+    done
+}
+
 my-repo-reset() {
     repo forall --ignore-missing -e -j24 -c 'git reset --hard --quiet && git clean -fdx'
     get_non_git_files.py --remove
