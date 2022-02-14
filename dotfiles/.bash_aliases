@@ -40,7 +40,7 @@ export PATH="$PATH:$HOME/bin"
 ###########################################################
 # pyenv
 ###########################################################
-# https://github.com/pyenv/pyenv  
+# https://github.com/pyenv/pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
@@ -50,6 +50,22 @@ eval "$(pyenv virtualenv-init -)"
 ###########################################################
 # unsorted
 ###########################################################
+notify-me() {
+    last=$(history | tail -n 1 | sed 's/^[0-9]\+ //')
+    if [[ ! -z "$SSH_CLIENT" ]] ; then
+        if [[ ! -z "$SSH_CLIENT" ]] ; then
+            ssh -i "${NOTIFY_ME_KEY}" "${NOTIFY_ME_IP}" notify-send "$PWD" \""${last}"\" "$@"
+        else
+            echo "Unable to find IP for notify-me over ssh"
+            echo "NOTIFY_ME_KEY: ${NOTIFY_ME_KEY}"
+            echo "NOTIFY_ME_IP: ${NOTIFY_ME_IP}"
+            echo "SSH_CLIENT: ${SSH_CLIENT}"
+        fi
+    else
+        notify-send "${PWD}" "${last}" "$@"
+    fi
+}
+
 cd-repo-root() {
     dirpath=$(pwd)
     if [[ -z "${REPO_ROOT_DIR}" ]]; then
