@@ -48,6 +48,109 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 ###########################################################
+# find
+###########################################################
+
+function ccgrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \) \
+        -exec grep --color -n "$@" {} +
+}
+
+function cmakegrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name 'CMakeLists.txt' \) \
+        -exec grep --color -n "$@" {} +
+}
+
+function sgrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|hpp\|S\|java\|xml\|sh\|mk\|aidl\|vts\)' \
+        -exec grep --color -n "$@" {} +
+}
+
+function get-git-root() {
+    dirpath=$(pwd)
+    while [[ "/" != "$dirpath" ]]; do
+        if [[ -d "${dirpath}/.git" ]] ; then
+            echo "$dirpath"
+            return 0
+        fi
+        dirpath=$(dirname "$dirpath")
+    done
+    return -1
+}
+
+function get-repo-root()
+{
+    dirpath=$(pwd)
+    if [[ -z "${REPO_ROOT_DIR}" ]]; then
+        while [[ "/" != "$dirpath" ]]; do
+            if [[ -d "${dirpath}/.repo" ]] ; then
+                echo "$dirpath"
+                return 0
+            fi
+            dirpath=$(dirname "$dirpath")
+        done
+    else
+        echo $REPO_ROOT_DIR
+    fi
+    return -1
+}
+
+# function cd-dir ()
+# {
+#     if [[ -z "$1" ]]; then
+#         echo "Usage: cd-dir <regex>"
+#         return
+#     fi
+#     local T=$(get-repo-root)
+#     local FILELIST
+#     if [ ! "$OUT_DIR" = "" ]; then
+#         mkdir -p $OUT_DIR
+#         FILELIST=$OUT_DIR/filelist
+#     else
+#         FILELIST=$T/filelist
+#     fi
+#     if [[ ! -f $FILELIST ]]; then
+#         echo -n "Creating index..."
+#         (\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -type f > $FILELIST)
+#         echo " Done"
+#         echo ""
+#     fi
+#     local lines
+#     lines=($(\grep "$1" $FILELIST | sed -e 's/\/[^/]*$//' | sort | uniq))
+#     if [[ ${#lines[@]} = 0 ]]; then
+#         echo "Not found"
+#         return
+#     fi
+#     local pathname
+#     local choice
+#     if [[ ${#lines[@]} > 1 ]]; then
+#         while [[ -z "$pathname" ]]; do
+#             local index=1
+#             local line
+#             for line in ${lines[@]}; do
+#                 printf "%6s %s\n" "[$index]" $line
+#                 index=$(($index + 1))
+#             done
+#             echo
+#             echo -n "Select one: "
+#             unset choice
+#             read choice
+#             if [[ $choice -gt ${#lines[@]} || $choice -lt 1 ]]; then
+#                 echo "Invalid choice"
+#                 continue
+#             fi
+#             pathname=${lines[$(($choice-1))]}
+#         done
+#     else
+#         pathname=${lines[0]}
+#     fi
+#     \cd $T/$pathname
+# }
+
+###########################################################
 # unsorted
 ###########################################################
 notify-me() {
@@ -72,12 +175,14 @@ cd-repo-root() {
         while [[ "/" != "$dirpath" ]]; do
             if [[ -d "${dirpath}/.repo" ]] ; then
                 cd "$dirpath"
+                return 0
             fi
             dirpath=$(dirname "$dirpath")
         done
     else
         cd $REPO_ROOT_DIR
     fi
+    return -1
 }
 
 cd-git-root() {
@@ -85,9 +190,11 @@ cd-git-root() {
     while [[ "/" != "$dirpath" ]]; do
         if [[ -d "${dirpath}/.git" ]] ; then
             cd "$dirpath"
+            return 0
         fi
         dirpath=$(dirname "$dirpath")
     done
+    return -1
 }
 
 my-repo-reset() {
