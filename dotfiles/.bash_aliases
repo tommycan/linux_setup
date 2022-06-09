@@ -9,8 +9,6 @@ then
 	bind '"\e[B": history-search-forward'
 fi
 
-# cd history
-[ -e ~/scripts/acd_func.sh ] && source ~/scripts/acd_func.sh
 
 mkdircd () {
 	mkdir -p "$1" && cd "$1"
@@ -214,9 +212,38 @@ prettyjson_s() {
 picocom0g() { picocom -b 115200 /dev/ttyUSB0 -g "pico0_$(date '+%Y%m%d_%H%M%S').log" ; }
 picocom1g() { picocom -b 115200 /dev/ttyUSB1 -g "pico1_$(date '+%Y%m%d_%H%M%S').log" ; }
 
-###########################################################
+run_with_args() {
+    workspace_dir=`get-repo-root`
+    echo "Workspace dir: ${workspace_dir}"
+    if [[ -d "${workspace_dir}" ]]; then
+        invoke_cmd="${workspace_dir}/$@"
+        echo "Invocation command: ${invoke_cmd}"
+        ${invoke_cmd}
+        # if [[ -f "${invocation_command}" ]]; then
+        #     echo "Execute: ${script_path}"
+        # else
+        #     "Failed to execute: ${script_path}"
+        #     return -1
+        # fi
+    else
+        "Failed to find workspace root: ${workspace_dir}"
+        return -1
+    fi
+}
+
+qnx_ssh_over_adb () {
+    script_rel_path="qnx/apps/qnx_ap/vendor/volvocars/audio/utils/qnx_ssh_over_adb/ssh_tunnel.sh"
+    run_with_args "${script_rel_path} $@"
+}
+
+quick_qnx_build_deploy () {
+    script_rel_path="qnx/apps/qnx_ap/vendor/volvocars/audio/utils/quick_qnx_build_deploy/quick_qnx_build_deploy.sh"
+    run_with_args "${script_rel_path} $@"
+}
+
+############################################################
 # cpufreq stuff
-###########################################################
+############################################################
 alias watch_cpu_freq="sudo watch -n1 cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq"
 alias get_cpu_gov="cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor"
 
@@ -237,7 +264,12 @@ set_cpu_gov()
     get_cpu_gov
 }
 
-###########################################################
+############################################################
+# cd history
+############################################################
+[[ -f ~/.bash_acd_func ]] && source ~/.bash_acd_func
+
+############################################################
 # confidential
-###########################################################
+############################################################
 [[ -f ~/.bash_haleytek ]] && source ~/.bash_haleytek
