@@ -25,6 +25,8 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
 alias dated='date +%Y-%m-%d\ %H:%M:%S.%N'
 alias tmux='tmux -u $@'
 
@@ -96,58 +98,6 @@ function get-repo-root()
     return -1
 }
 
-# function cd-dir ()
-# {
-#     if [[ -z "$1" ]]; then
-#         echo "Usage: cd-dir <regex>"
-#         return
-#     fi
-#     local T=$(get-repo-root)
-#     local FILELIST
-#     if [ ! "$OUT_DIR" = "" ]; then
-#         mkdir -p $OUT_DIR
-#         FILELIST=$OUT_DIR/filelist
-#     else
-#         FILELIST=$T/filelist
-#     fi
-#     if [[ ! -f $FILELIST ]]; then
-#         echo -n "Creating index..."
-#         (\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -type f > $FILELIST)
-#         echo " Done"
-#         echo ""
-#     fi
-#     local lines
-#     lines=($(\grep "$1" $FILELIST | sed -e 's/\/[^/]*$//' | sort | uniq))
-#     if [[ ${#lines[@]} = 0 ]]; then
-#         echo "Not found"
-#         return
-#     fi
-#     local pathname
-#     local choice
-#     if [[ ${#lines[@]} > 1 ]]; then
-#         while [[ -z "$pathname" ]]; do
-#             local index=1
-#             local line
-#             for line in ${lines[@]}; do
-#                 printf "%6s %s\n" "[$index]" $line
-#                 index=$(($index + 1))
-#             done
-#             echo
-#             echo -n "Select one: "
-#             unset choice
-#             read choice
-#             if [[ $choice -gt ${#lines[@]} || $choice -lt 1 ]]; then
-#                 echo "Invalid choice"
-#                 continue
-#             fi
-#             pathname=${lines[$(($choice-1))]}
-#         done
-#     else
-#         pathname=${lines[0]}
-#     fi
-#     \cd $T/$pathname
-# }
-
 ###########################################################
 # unsorted
 ###########################################################
@@ -180,6 +130,17 @@ cd-repo-root() {
     else
         cd $REPO_ROOT_DIR
     fi
+    return -1
+}
+
+cd-manifests-root() {
+    cd-repo-root
+    manifestdir="$(pwd)/.repo/manifests"
+    if [[ -d "$manifestdir" ]]; then
+        cd "$manifestdir"
+        return 0
+    fi
+    echo "Could not find $manifestdir"
     return -1
 }
 
@@ -270,6 +231,6 @@ set_cpu_gov()
 [[ -f ~/.bash_acd_func ]] && source ~/.bash_acd_func
 
 ############################################################
-# confidential
+# haleytek specific
 ############################################################
 [[ -f ~/.bash_haleytek ]] && source ~/.bash_haleytek
