@@ -172,8 +172,19 @@ prettyjson_s() {
     echo "$1" | python -m json.tool
 }
 
-picocom0g() { picocom -b 115200 /dev/ttyUSB0 -g "pico0_$(date '+%Y%m%d_%H%M%S').log" ; }
-picocom1g() { picocom -b 115200 /dev/ttyUSB1 -g "pico1_$(date '+%Y%m%d_%H%M%S').log" ; }
+picocomg() {
+    if [[ -z $1 ]]; then
+        echo "Expected one argument <INDEX> to use appropriate USB devices as /dev/ttyUSB<INDEX>, as for instance"
+        echo "picocomg 0"
+        echo "picocomg 1"
+        return -1
+    fi
+    idx=$1
+    picocom -b 115200 /dev/ttyUSB${idx} -g "pico${idx}_$(date '+%Y%m%d_%H%M%S').log"
+}
+
+picocom0g() { picocomg 0; }
+picocom1g() { picocomg 1; }
 
 run_with_args() {
     workspace_dir=`get-repo-root`
