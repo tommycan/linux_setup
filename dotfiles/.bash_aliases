@@ -40,13 +40,15 @@ export PATH="$PATH:$HOME/bin"
 ###########################################################
 # pyenv
 ###########################################################
-# https://github.com/pyenv/pyenv
-if [[ -f "$HOME/.pyenv" ]]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
+if [[ -d "$HOME/.pyenv" ]]; then
+    # https://github.com/pyenv/pyenv
+    enable-pyenv() {
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init --path)"
+        eval "$(pyenv init -)"
+        eval "$(pyenv virtualenv-init -)"
+    }
 fi
 
 ###########################################################
