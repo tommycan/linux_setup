@@ -11,15 +11,19 @@ sudo apt-get install make build-essential libssl-dev zlib1g-dev \
 # https://github.com/pyenv/pyenv-installer
 curl https://pyenv.run | bash
 
-## Add to your .bashr
-## https://github.com/pyenv/pyenv  
-#export PYENV_ROOT="$HOME/.pyenv"
-#export PATH="$PYENV_ROOT/bin:$PATH"
-#eval "$(pyenv init --path)"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
+# # Add to your .bashr
+# # https://github.com/pyenv/pyenv
+# if [[ -d "$HOME/.pyenv" ]]; then
+#     enable-pyenv() {
+#         export PYENV_ROOT="$HOME/.pyenv"
+#         export PATH="$PYENV_ROOT/bin:$PATH"
+#         eval "$(pyenv init --path)"
+#         eval "$(pyenv init -)"
+#         eval "$(pyenv virtualenv-init -)"
+#     }
+# fi
 
-## Important to specify --enable-shared, as described
-## https://blog.michelemattioni.me/2016/03/06/pyenv-install-using-shared-library/
-#env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -v 3.6.9
+# # Important to specify --enable-shared, as described
+# # https://blog.michelemattioni.me/2016/03/06/pyenv-install-using-shared-library/
+# env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -v 3.6.9
 
