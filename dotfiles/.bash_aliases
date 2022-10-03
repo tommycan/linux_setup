@@ -160,6 +160,18 @@ cd-git-root() {
     return -1
 }
 
+cd-cvendor() {
+    dirpath=$(pwd)
+    while [[ "/" != "$dirpath" ]]; do
+        if [[ "$(basename ${dirpath})" = "cvendor" ]] ; then
+            cd "$dirpath"
+            return 0
+        fi
+        dirpath=$(dirname "$dirpath")
+    done
+    return -1
+}
+
 my-repo-reset() {
     repo forall --ignore-missing -e -j24 -c 'git reset --hard --quiet && git clean -fdx'
     get_non_git_files.py --remove
