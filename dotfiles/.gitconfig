@@ -7,6 +7,8 @@
   	pager = true	
 [pull]
 	rebase = true
+[color]
+	ui = auto
 [diff]
     tool = meld
 [difftool]
