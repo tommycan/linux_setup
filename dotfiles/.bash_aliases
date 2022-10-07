@@ -35,7 +35,8 @@ alias tmux='tmux -u $@'
 ###########################################################
 export VISUAL=vim
 export EDITOR="$VISUAL"
-export PATH="$PATH:$HOME/bin"
+[[ -d $HOME/bin ]] && export PATH="$PATH:$HOME/bin"
+[[ -d $HOME/.local/bin ]] && export PATH="$PATH:$HOME/.local/bin"
 
 ###########################################################
 # pyenv
