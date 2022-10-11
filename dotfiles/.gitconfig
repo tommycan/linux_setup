@@ -1,3 +1,5 @@
+[pull]
+	rebase = true
 [color]
   	diff = auto
   	status = auto
@@ -5,10 +7,6 @@
   	interactive = auto
   	ui = true
   	pager = true	
-[pull]
-	rebase = true
-[color]
-	ui = auto
 [diff]
     tool = meld
 [difftool]
