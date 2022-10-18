@@ -27,8 +27,23 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
-alias dated='date +%Y-%m-%d\ %H:%M:%S.%N'
+alias nice-date='date +%Y-%m-%d\ %H:%M:%S.%N'
+alias -g long-date='date +%Y%m%d_%H%M%S_%N'
+alias -g short-date='date +%Y%m%d_%H%M%S'
 alias tmux='tmux -u $@'
+
+# https://opensource.com/article/18/9/tips-productivity-zsh
+d() {
+	num_lines=10
+	if [[ "$#" -eq 1 ]]; then
+		num_lines=$1
+	fi
+	dirs -v | head -$1
+}
+for id in {1..100}
+do
+   alias ${id}="cd -${id}"
+done
 
 ###########################################################
 # env
@@ -55,52 +70,52 @@ export PATH="$PATH:$HOME/bin"
 # # find
 # ###########################################################
 
-# function ccgrep()
-# {
-#     find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \) \
-#         -exec grep --color -n "$@" {} +
-# }
+function ccgrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name '*.c' -o -name '*.cc' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \) \
+        -exec grep --color -n "$@" {} +
+}
 
-# function cmakegrep()
-# {
-#     find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name 'CMakeLists.txt' \) \
-#         -exec grep --color -n "$@" {} +
-# }
+function cmakegrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name 'CMakeLists.txt' \) \
+        -exec grep --color -n "$@" {} +
+}
 
-# function sgrep()
-# {
-#     find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|hpp\|S\|java\|xml\|sh\|mk\|aidl\|vts\)' \
-#         -exec grep --color -n "$@" {} +
-# }
+function sgrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|hpp\|S\|java\|xml\|sh\|mk\|aidl\|vts\)' \
+        -exec grep --color -n "$@" {} +
+}
 
-# function get-git-root() {
-#     dirpath=$(pwd)
-#     while [[ "/" != "$dirpath" ]]; do
-#         if [[ -d "${dirpath}/.git" ]] ; then
-#             echo "$dirpath"
-#             return 0
-#         fi
-#         dirpath=$(dirname "$dirpath")
-#     done
-#     return -1
-# }
+function get-git-root() {
+    dirpath=$(pwd)
+    while [[ "/" != "$dirpath" ]]; do
+        if [[ -d "${dirpath}/.git" ]] ; then
+            echo "$dirpath"
+            return 0
+        fi
+        dirpath=$(dirname "$dirpath")
+    done
+    return -1
+}
 
-# function get-repo-root()
-# {
-#     dirpath=$(pwd)
-#     if [[ -z "${REPO_ROOT_DIR}" ]]; then
-#         while [[ "/" != "$dirpath" ]]; do
-#             if [[ -d "${dirpath}/.repo" ]] ; then
-#                 echo "$dirpath"
-#                 return 0
-#             fi
-#             dirpath=$(dirname "$dirpath")
-#         done
-#     else
-#         echo $REPO_ROOT_DIR
-#     fi
-#     return -1
-# }
+function get-repo-root()
+{
+    dirpath=$(pwd)
+    if [[ -z "${REPO_ROOT_DIR}" ]]; then
+        while [[ "/" != "$dirpath" ]]; do
+            if [[ -d "${dirpath}/.repo" ]] ; then
+                echo "$dirpath"
+                return 0
+            fi
+            dirpath=$(dirname "$dirpath")
+        done
+    else
+        echo $REPO_ROOT_DIR
+    fi
+    return -1
+}
 
 # ###########################################################
 # # unsorted
@@ -121,44 +136,44 @@ export PATH="$PATH:$HOME/bin"
 #     fi
 # }
 
-# cd-repo-root() {
-#     dirpath=$(pwd)
-#     if [[ -z "${REPO_ROOT_DIR}" ]]; then
-#         while [[ "/" != "$dirpath" ]]; do
-#             if [[ -d "${dirpath}/.repo" ]] ; then
-#                 cd "$dirpath"
-#                 return 0
-#             fi
-#             dirpath=$(dirname "$dirpath")
-#         done
-#     else
-#         cd $REPO_ROOT_DIR
-#     fi
-#     return -1
-# }
+cd-repo-root() {
+    dirpath=$(pwd)
+    if [[ -z "${REPO_ROOT_DIR}" ]]; then
+        while [[ "/" != "$dirpath" ]]; do
+            if [[ -d "${dirpath}/.repo" ]] ; then
+                cd "$dirpath"
+                return 0
+            fi
+            dirpath=$(dirname "$dirpath")
+        done
+    else
+        cd $REPO_ROOT_DIR
+    fi
+    return -1
+}
 
-# cd-manifests-root() {
-#     cd-repo-root
-#     manifestdir="$(pwd)/.repo/manifests"
-#     if [[ -d "$manifestdir" ]]; then
-#         cd "$manifestdir"
-#         return 0
-#     fi
-#     echo "Could not find $manifestdir"
-#     return -1
-# }
+cd-manifests-root() {
+    cd-repo-root
+    manifestdir="$(pwd)/.repo/manifests"
+    if [[ -d "$manifestdir" ]]; then
+        cd "$manifestdir"
+        return 0
+    fi
+    echo "Could not find $manifestdir"
+    return -1
+}
 
-# cd-git-root() {
-#     dirpath=$(pwd)
-#     while [[ "/" != "$dirpath" ]]; do
-#         if [[ -d "${dirpath}/.git" ]] ; then
-#             cd "$dirpath"
-#             return 0
-#         fi
-#         dirpath=$(dirname "$dirpath")
-#     done
-#     return -1
-# }
+cd-git-root() {
+    dirpath=$(pwd)
+    while [[ "/" != "$dirpath" ]]; do
+        if [[ -d "${dirpath}/.git" ]] ; then
+            cd "$dirpath"
+            return 0
+        fi
+        dirpath=$(dirname "$dirpath")
+    done
+    return -1
+}
 
 # my-repo-reset() {
 #     repo forall --ignore-missing -e -j24 -c 'git reset --hard --quiet && git clean -fdx'
@@ -249,3 +264,4 @@ export PATH="$PATH:$HOME/bin"
 # # haleytek specific
 # ############################################################
 # [[ -f ~/.bash_haleytek ]] && source ~/.bash_haleytek
+[[ -f ~/.zshrc_haleytek ]] && source ~/.zshrc_haleytek
