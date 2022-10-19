@@ -82,6 +82,12 @@ function cmakegrep()
         -exec grep --color -n "$@" {} +
 }
 
+function pygrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name '*.py' \) \
+        -exec grep --color -n "$@" {} +
+}
+
 function sgrep()
 {
     find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|hpp\|S\|java\|xml\|sh\|mk\|aidl\|vts\)' \
