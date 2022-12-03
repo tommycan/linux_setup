@@ -73,6 +73,7 @@ ZSH_THEME="robbyrussell"
 plugins=(
     # bgnotify
     git
+    per-directory-history
     # scd
     # zsh-autosuggestions
     # zsh-interactive-cd
