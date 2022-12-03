@@ -68,6 +68,12 @@ function cmakegrep()
         -exec grep --color -n "$@" {} +
 }
 
+function bpgrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -name out -prune -o -type f \( -name 'Android.bp' -o -name 'Android.mk' \) \
+        -exec grep --color -n "$@" {} +
+}
+
 function sgrep()
 {
     find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|hpp\|S\|java\|xml\|sh\|mk\|aidl\|vts\)' \

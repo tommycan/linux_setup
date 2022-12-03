@@ -2,6 +2,8 @@
 
 sudo apt update
 sudo apt install \
+	bat \
+	kdiff3 \
 	meld \
 	openssh-server \
 	repo \
@@ -21,3 +23,8 @@ pip3 install docker-compose
 
 # tmux plugins
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+# https://github.com/sharkdp/bat
+mkdir -p ~/.local/bin
+ln -s /usr/bin/batcat ~/.local/bin/bat
+
