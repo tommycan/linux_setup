@@ -128,6 +128,18 @@ notify-me() {
     fi
 }
 
+cd-git-root() {
+    dirpath=$(pwd)
+    while [[ "/" != "$dirpath" ]]; do
+        if [[ -d "${dirpath}/.git" ]] ; then
+            cd "$dirpath"
+            return 0
+        fi
+        dirpath=$(dirname "$dirpath")
+    done
+    return -1
+}
+
 cd-repo-root() {
     dirpath=$(pwd)
     if [[ -z "${REPO_ROOT_DIR}" ]]; then
@@ -141,42 +153,28 @@ cd-repo-root() {
     else
         cd $REPO_ROOT_DIR
     fi
+    echo "Could not find folder .repo in $(pwd) or any parent folder"
     return -1
 }
 
 cd-manifests-root() {
     cd-repo-root
-    manifestdir="$(pwd)/.repo/manifests"
-    if [[ -d "$manifestdir" ]]; then
-        cd "$manifestdir"
-        return 0
-    fi
-    echo "Could not find $manifestdir"
-    return -1
+    [[ $? -eq 0 ]] && cd "$(pwd)/.repo/manifests"
 }
 
-cd-git-root() {
-    dirpath=$(pwd)
-    while [[ "/" != "$dirpath" ]]; do
-        if [[ -d "${dirpath}/.git" ]] ; then
-            cd "$dirpath"
-            return 0
-        fi
-        dirpath=$(dirname "$dirpath")
-    done
-    return -1
+cd-qnx-cvendor() {
+    cd-repo-root
+    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor"
 }
 
-cd-cvendor() {
-    dirpath=$(pwd)
-    while [[ "/" != "$dirpath" ]]; do
-        if [[ "$(basename ${dirpath})" = "cvendor" ]] ; then
-            cd "$dirpath"
-            return 0
-        fi
-        dirpath=$(dirname "$dirpath")
-    done
-    return -1
+cd-qnx-volvocars() {
+    cd-repo-root
+    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor/volvocars"
+}
+
+cd-qnx-haleytek() {
+    cd-repo-root
+    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor/haleytek"
 }
 
 my-repo-reset() {
