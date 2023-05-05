@@ -72,12 +72,12 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     # bgnotify
-    fzf
-    fzf-tab
+    # fzf
+    # fzf-tab
     git
     # per-directory-history
     # scd
-    zsh-autosuggestions
+    # zsh-autosuggestions
     # zsh-interactive-cd
     z
     zsh-syntax-highlighting
