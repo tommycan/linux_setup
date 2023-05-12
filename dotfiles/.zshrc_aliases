@@ -191,6 +191,26 @@ cd-qnx-haleytek() {
     [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor/haleytek"
 }
 
+cd-qnx-haleytek-host-guest-interfaces() {
+    cd-repo-root
+    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor/haleytek/common/host-guest-interfaces"
+}
+
+cd-android-haleytek-audio() {
+    cd-repo-root
+    [[ $? -eq 0 ]] && cd "$(pwd)/android/vendor/haleytek/hardware/audio"
+}
+
+cd-android-haleytek-interfaces() {
+    cd-repo-root
+    [[ $? -eq 0 ]] && cd "$(pwd)/android/vendor/haleytek/hardware/interfaces"
+}
+
+cd-android-haleytek-host-guest-interfaces() {
+    cd-repo-root
+    [[ $? -eq 0 ]] && cd "$(pwd)/android/vendor/haleytek/hardware/common/host-guest-interfaces"
+}
+
 # my-repo-reset() {
 #     repo forall --ignore-missing -e -j24 -c 'git reset --hard --quiet && git clean -fdx'
 #     get_non_git_files.py --remove
