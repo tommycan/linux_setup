@@ -12,6 +12,8 @@ sudo apt install \
 	tmux \
 	tree \
 	vim \
+	# wmctrl \
+	# xdotool \
 
 # vs code
 # https://linuxhint.com/install-visual-studio-code-ubuntu22-04/

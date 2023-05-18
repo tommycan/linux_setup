@@ -76,6 +76,7 @@ plugins=(
     # fzf
     # fzf-tab
     git
+    # notify
     # per-directory-history
     # scd
     # zsh-autosuggestions
