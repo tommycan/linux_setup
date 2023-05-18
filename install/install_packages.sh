@@ -4,6 +4,7 @@ sudo apt update
 sudo apt install \
 	bat \
 	kdiff3 \
+	libnotify \
 	meld \
 	openssh-server \
 	repo \
