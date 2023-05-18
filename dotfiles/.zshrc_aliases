@@ -301,3 +301,5 @@ picocom1g() { picocomg 1; }
 # ############################################################
 # [[ -f ~/.bash_haleytek ]] && source ~/.bash_haleytek
 [[ -f ~/.zshrc_haleytek ]] && source ~/.zshrc_haleytek
+
+export AUTO_NOTIFY_THRESHOLD=3
