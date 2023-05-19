@@ -17,8 +17,9 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # https://github.com/MichaelAquilina/zsh-auto-notify/issues/46
-git clone https://github.com/MichaelAquilina/zsh-auto-notify.git $ZSH_CUSTOM/plugins/auto-notify
+# git clone https://github.com/MichaelAquilina/zsh-auto-notify.git $ZSH_CUSTOM/plugins/auto-notify
 # cd $ZSH_CUSTOM/plugins/auto-notify git checkout 1f64cb654473d7208f46534bc3df47ac919d4a72
+git clone https://github.com/tommycan/zsh-auto-notify.git $ZSH_CUSTOM/plugins/auto-notify && git checkout dev
 
 # git clone https://github.com/marzocchi/zsh-notify.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/notify
 
