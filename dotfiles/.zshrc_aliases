@@ -304,5 +304,6 @@ picocom1g() { picocomg 1; }
 
 
 export AUTO_NOTIFY_THRESHOLD=3
+disable_auto_notify
 
 #zstyle ':notify:*' command-complete-timeout 3
