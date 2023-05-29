@@ -166,6 +166,7 @@ cd-repo-root() {
         done
     else
         cd $REPO_ROOT_DIR
+	return 0
     fi
     echo "Could not find folder .repo in $(pwd) or any parent folder"
     return -1
