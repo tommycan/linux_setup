@@ -27,7 +27,9 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
-alias dated='date +%Y-%m-%d\ %H:%M:%S.%N'
+alias nice-date='date +%Y-%m-%d\ %H:%M:%S.%N'
+alias -g long-date='date +%Y%m%d_%H%M%S_%N'
+alias -g short-date='date +%Y%m%d_%H%M%S'
 alias tmux='tmux -u $@'
 
 ###########################################################
@@ -80,129 +82,20 @@ function sgrep()
         -exec grep --color -n "$@" {} +
 }
 
-function get-git-root() {
-    dirpath=$(pwd)
-    while [[ "/" != "$dirpath" ]]; do
-        if [[ -d "${dirpath}/.git" ]] ; then
-            echo "$dirpath"
-            return 0
-        fi
-        dirpath=$(dirname "$dirpath")
-    done
-    return -1
-}
 
-function get-repo-root()
-{
-    dirpath=$(pwd)
-    if [[ -z "${REPO_ROOT_DIR}" ]]; then
-        while [[ "/" != "$dirpath" ]]; do
-            if [[ -d "${dirpath}/.repo" ]] ; then
-                echo "$dirpath"
-                return 0
-            fi
-            dirpath=$(dirname "$dirpath")
-        done
-    else
-        echo $REPO_ROOT_DIR
-    fi
-    return -1
-}
+alias cd-git-root='cd $(git rev-parse --show-toplevel)'
+alias cd-repo-root='cd $(repo --show-toplevel)'
+alias cd-manifest-root='cd $(repo --show-toplevel)/.repo/manifests'
 
-###########################################################
-# unsorted
-###########################################################
-notify-me() {
-    last=$(history | tail -n 1 | sed 's/^[0-9]\+ //')
-    if [[ ! -z "$SSH_CLIENT" ]] ; then
-        if [[ ! -z "$SSH_CLIENT" ]] ; then
-            ssh -i "${NOTIFY_ME_KEY}" "${NOTIFY_ME_IP}" notify-send "$PWD" \""${last}"\" "$@"
-        else
-            echo "Unable to find IP for notify-me over ssh"
-            echo "NOTIFY_ME_KEY: ${NOTIFY_ME_KEY}"
-            echo "NOTIFY_ME_IP: ${NOTIFY_ME_IP}"
-            echo "SSH_CLIENT: ${SSH_CLIENT}"
-        fi
-    else
-        notify-send "${PWD}" "${last}" "$@"
-    fi
-}
+alias cd-qnx-cvendor='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor'
+alias cd-qnx-volvocars='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor/volvocars'
+alias cd-qnx-haleytek='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor/haleytek'
+alias cd-qnx-haleytek-host-gueset-interfaces='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor/haleytek/common/host-guest-interfaces'
 
-cd-git-root() {
-    dirpath=$(pwd)
-    while [[ "/" != "$dirpath" ]]; do
-        if [[ -d "${dirpath}/.git" ]] ; then
-            cd "$dirpath"
-            return 0
-        fi
-        dirpath=$(dirname "$dirpath")
-    done
-    return -1
-}
+alias cd-android-haleytek-audio='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/audio'
+alias cd-android-haleytek-interfaces='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/interfaces'
+alias cd-android-haleytek-host-guest-interfaces='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/common/host-guest-interfaces'
 
-cd-repo-root() {
-    dirpath=$(pwd)
-    if [[ -z "${REPO_ROOT_DIR}" ]]; then
-        while [[ "/" != "$dirpath" ]]; do
-            if [[ -d "${dirpath}/.repo" ]] ; then
-                cd "$dirpath"
-                return 0
-            fi
-            dirpath=$(dirname "$dirpath")
-        done
-    else
-        cd $REPO_ROOT_DIR
-	return 0
-    fi
-    echo "Could not find folder .repo in $(pwd) or any parent folder"
-    return -1
-}
-
-cd-manifests-root() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/.repo/manifests"
-}
-
-cd-qnx-cvendor() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor"
-}
-
-cd-qnx-volvocars() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor/volvocars"
-}
-
-cd-qnx-haleytek() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor/haleytek"
-}
-
-cd-qnx-haleytek-host-guest-interfaces() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/qnx/apps/qnx_ap/cvendor/haleytek/common/host-guest-interfaces"
-}
-
-cd-android-haleytek-audio() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/android/vendor/haleytek/hardware/audio"
-}
-
-cd-android-haleytek-interfaces() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/android/vendor/haleytek/hardware/interfaces"
-}
-
-cd-android-haleytek-host-guest-interfaces() {
-    cd-repo-root
-    [[ $? -eq 0 ]] && cd "$(pwd)/android/vendor/haleytek/hardware/common/host-guest-interfaces"
-}
-
-my-repo-reset() {
-    repo forall --ignore-missing -e -j24 -c 'git reset --hard --quiet && git clean -fdx'
-    get_non_git_files.py --remove
-    repo sync --force-sync
-}
 
 prettyjson_f() {
     python -m json.tool "$1"
