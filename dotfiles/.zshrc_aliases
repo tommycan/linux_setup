@@ -115,11 +115,10 @@ alias cd-android-haleytek-audio='cd $(repo --show-toplevel)/android/vendor/haley
 alias cd-android-haleytek-interfaces='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/interfaces'
 alias cd-android-haleytek-host-guest-interfaces='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/common/host-guest-interfaces'
 
-# my-repo-reset() {
-#     repo forall --ignore-missing -e -j24 -c 'git reset --hard --quiet && git clean -fdx'
-#     get_non_git_files.py --remove
-#     repo sync --force-sync
-# }
+my-repo-reset() {
+    repo forall --ignore-missing -e -v -j24 -c 'git reset --hard --quiet && git clean -fdx --force'
+    repo sync --force-sync --force-remove-dirty -c -d -j12
+}
 
 # prettyjson_f() {
 #     python -m json.tool "$1"
