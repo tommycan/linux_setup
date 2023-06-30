@@ -28,8 +28,8 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
 alias nice-date='date +%Y-%m-%d\ %H:%M:%S.%N'
-alias -g long-date='date +%Y%m%d_%H%M%S_%N'
-alias -g short-date='date +%Y%m%d_%H%M%S'
+alias long-date='date +%Y%m%d_%H%M%S_%N'
+alias short-date='date +%Y%m%d_%H%M%S'
 alias tmux='tmux -u $@'
 
 ###########################################################
