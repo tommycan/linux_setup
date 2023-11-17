@@ -207,6 +207,11 @@ picocom1g() { picocomg 1; }
 [[ -f ~/.zshrc_haleytek ]] && source ~/.zshrc_haleytek
 # [[ -f ~/.bashrc_include/repo-completion.bash ]] && source ~/.bashrc_include/repo-completion.bash
 
+# ############################################################
+# # fzf
+# ############################################################
+[[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+[[ -f /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
 
 export AUTO_NOTIFY_THRESHOLD=3
 disable_auto_notify
