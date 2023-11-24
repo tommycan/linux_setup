@@ -109,12 +109,17 @@ alias cd-manifest-root='cd $(repo --show-toplevel)/.repo/manifests'
 
 alias cd-qnx-cvendor='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor'
 alias cd-qnx-volvocars='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor/volvocars'
+alias cd-qnx-volvocars-android-qnx-shared='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor/volvocars/common/android-qnx-shared'
 alias cd-qnx-haleytek='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor/haleytek'
 alias cd-qnx-haleytek-host-gueset-interfaces='cd $(repo --show-toplevel)/qnx/apps/qnx_ap/cvendor/haleytek/common/host-guest-interfaces'
 
+alias cd-android-volvocars-moose-vhal_audio_settings='cd $(repo --show-toplevel)/android/vendor/volvocars/moose/hardware/vehiclehal/vhal_audio_settings'
+alias cd-android-volvocars-grassland-interfaces-vehiclehal='cd $(repo --show-toplevel)/android/vendor/volvocars/grassland/hardware/interfaces/vehiclehal'
+alias cd-android-volvocars-android-qnx-shared='cd $(repo --show-toplevel)/android/vendor/volvocars/moose/hardware/common/android-qnx-shared'
 alias cd-android-haleytek-audio='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/audio'
 alias cd-android-haleytek-interfaces='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/interfaces'
 alias cd-android-haleytek-host-guest-interfaces='cd $(repo --show-toplevel)/android/vendor/haleytek/hardware/common/host-guest-interfaces'
+
 
 my-repo-reset() {
     repo forall --ignore-missing -e -v -j24 -c 'git reset --hard --quiet && git clean -fdx --force'
